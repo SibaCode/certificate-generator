@@ -15,17 +15,18 @@
 <div class="page" id="page1">
   <!-- Logo moved outside and styled for visibility -->
   <div style="text-align: center; margin-top: 40px;">
-    <img src="images/ss_logo.png" alt="Logo" style="height: 180px; margin-bottom: 20px;" />
+    <img src="images/ss_logo.png"  crossOrigin="anonymous"alt="Logo" style="height: 180px; margin-bottom: 20px;" />
   </div>
 
   <div class="input-panel">
     <h2>Generate Your Certificate</h2>
   
-    <input type="text" id="name" class="form-control mb-2" placeholder="Enter recipient name" />
-    <div id="nameError" class="text-danger mb-2" style="display: none;">Please enter a name.</div>
+    <input type="text" id="name" autocomplete="name" class="form-control mb-2" placeholder="Enter recipient name">
+
+        <div id="nameError" class="text-danger mb-2" style="display: none;">Please enter a name.</div>
   
-    <textarea id="message" class="form-control mb-2" placeholder="Enter message about their contribution..."></textarea>
-    <div id="messageError" class="text-danger mb-2" style="display: none;">Please enter a message.</div>
+        <textarea id="message" autocomplete="off" class="form-control mb-2" placeholder="Enter message about their contribution..."></textarea>
+        <div id="messageError" class="text-danger mb-2" style="display: none;">Please enter a message.</div>
   
     <button class="btn btn-success w-100" onclick="goToPage2()">Next</button>
   </div>
@@ -37,19 +38,19 @@
   <div class="certificate-container">
     <div id="pdf-content">
       <div class="logo">
-        <img src="images/logo-env.jpeg" alt="Company Logo" />
+        <img src="images/logo-env.jpeg" alt="Company Logo"  crossOrigin="anonymous"/>
       </div>
 
       <div class="seal">
-        <img src="images/seal.png" alt="Seal" />
+        <img src="images/seal.png" alt="Seal"  crossOrigin="anonymous"/>
       </div>
 
       <div class="certificate-content">
         <h1>Certificate of Recognition</h1>
         <div class="accent-line"></div>
         <p>This certificate is proudly presented to</p>
-        <div class="recipient" id="cert-name">[Recipient Name]</div>
-        <p id="cert-message">[Message about the recipient's achievement or involvement in environmental initiatives.]</p>
+        <div class="recipient" id="cert-name" >[Recipient Name]</div>
+        <p id="cert-message"> [Message about the recipient's achievement or involvement in environmental initiatives.]</p>
       </div>
 
       <div class="footer">
@@ -72,9 +73,68 @@
 <!-- html2pdf.js CDN -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
-<script src="js/generator.js"></script>
+<!-- <script src="js/generator.js"></script> -->
+<script>
+  function goToPage2() {
+    const name = document.getElementById('name').value.trim();
+    const message = document.getElementById('message').value.trim();
+   
+      
+    // let isValid = true;
+  
+    // // Validation for name
+    // if (!name) {
+    //   document.getElementById('nameError').style.display = 'block';
+    //   isValid = false;
+    // } else {
+    //   document.getElementById('nameError').style.display = 'none';
+    // }
+  
+    // // Validation for message
+    // if (!message) {
+    //   document.getElementById('messageError').style.display = 'block';
+    //   isValid = false;
+    // } else {
+    //   document.getElementById('messageError').style.display = 'none';
+    // }
+  
+    // // Stop here if any field is invalid
+    // if (!isValid) return;
+  
+    // Populate certificate values
+    document.getElementById('cert-name').innerText = name;
+    document.getElementById('cert-message').innerText = message;
+  
+    // Show Page 2
+    document.getElementById('page1').style.display = 'none';
+    document.getElementById('page2').style.display = 'block';
+  }
+  async function downloadPDF() {
+  const element = document.getElementById('pdf-content');
+  const canvas = await html2canvas(element, { scale: 2 });
 
+  const imgData = canvas.toDataURL('image/jpeg', 1.0);
+  const { jsPDF } = window.jspdf;
+  const pdf = new jsPDF('landscape', 'pt', 'a4');
+
+  const width = pdf.internal.pageSize.getWidth();
+  const height = pdf.internal.pageSize.getHeight();
+
+  pdf.addImage(imgData, 'JPEG', 0, 0, width, height);
+  pdf.save('certificate.pdf');
+}
+ function goBack() {
+        // Option 1: Navigate to a specific page
+        document.getElementById('page2').style.display = 'none';
+        document.getElementById('page1').style.display = 'block';
+      
+        // Option 2: Use browser history (only if you navigated)
+        // window.history.back(); 
+      }
+</script>
 <!-- Bootstrap JS -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>

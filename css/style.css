@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
 
 body {
-  margin: 0;
+  margin: -40px;
   font-family: 'Poppins', sans-serif;
   background: #f0fdf4;
 }
@@ -50,24 +50,83 @@ body {
   width: 100%;
   margin-top: 10px;
 }
-/* Inside css/style.css or <style> in your HTML */
-@media print {
-  body {
-    -webkit-print-color-adjust: exact !important; /* Chrome/Safari */
-    print-color-adjust: exact !important;
-  }
 
-  .certificate-container {
-    background-image: url('../images/background.jpg'); /* adjust path */
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
-  }
-
-  .page {
-    page-break-after: always;
-  }
+.recipient {
+  font-size: 70px;
+  font-weight: bold;
+  color: #fff;
+  margin: 30px 0 10px;
+  word-break: break-word;
+  text-align: center;
 }
+
+.cert-message {
+  font-size: 20px;
+  color: #fff;
+  margin-top: 20px;
+  line-height: 1.6;
+  white-space: normal;
+  word-wrap: break-word;
+  text-align: center;
+}
+
+.certificate-content h1 {
+  font-size: 50px;
+  color: #fff;
+  margin-bottom: 10px;
+}
+
+.footer {
+  position: absolute;
+  bottom: 30px;
+  left: 60px;
+  right: 60px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 16px;
+  color: #fff;
+  z-index: 2;
+}
+
+.signature-line {
+  border-top: 1px solid #fff;
+  width: 220px;
+  text-align: center;
+  padding-top: 5px;
+}
+
+.action-buttons {
+  margin: 20px auto;
+  text-align: center;
+}
+
+.action-buttons button {
+  margin: 0 10px;
+  padding: 10px 20px;
+  font-size: 16px;
+  background: #388e3c;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.logo-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.logo-header img {
+  height: 100px;
+  margin-bottom: 10px;
+}
+
+.logo-header h2 {
+  margin: 0;
+  font-size: 24px;
+}
+
 
 .certificate-container {
   width: 100%;
@@ -110,12 +169,10 @@ body {
   text-align: center;
   z-index: 2;
   max-width: 900px;
-}
-
-.certificate-content h1 {
-  font-size: 69px;
-  color: #fff;
-  margin-bottom: 10px;
+  max-height: 5.5in;
+  overflow-y: auto; /* Allows text to scroll if content is too much */
+  padding: 0 20px;
+  word-break: break-word;
 }
 
 .accent-line {
@@ -131,65 +188,50 @@ body {
   font-style: italic;
 }
 
-.recipient {
-  font-size: 90px;
-  font-weight: bold;
-  color: #fff;
-  margin: 30px 0 10px;
-}
-
-.footer {
-  position: absolute;
-  bottom: 50px;
-  left: 60px;
-  right: 60px;
-  display: flex;
-  justify-content: space-between;
-  font-size: 16px;
-  color: #fff;
-  z-index: 2;
-}
-
-.signature-line {
-  border-top: 1px solid #fff;
-  width: 220px;
-  text-align: center;
-  padding-top: 5px;
-}
-
-.action-buttons {
-  margin: 20px auto;
-  text-align: center;
-}
-
-.action-buttons button {
-  margin: 0 10px;
-  padding: 10px 20px;
-  font-size: 16px;
-  background: #388e3c;
-  color: white;
-  border: none;
-  cursor: pointer;
-}
-.logo-header {
-display: flex;
-flex-direction: column;
-align-items: center;
-margin-bottom: 20px;
-}
-
-.logo-header img {
-height: 100px;
-margin-bottom: 10px;
-}
-
-.logo-header h2 {
-margin: 0;
-font-size: 24px;
-}
-
+/* Print Styles */
 @media print {
-  .action-buttons, #page1 {
+  @page {
+    size: A4 landscape;
+    margin: 0;
+  }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    width: 11.69in;
+    height: 8.27in;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    overflow: hidden;
+  }
+
+  .action-buttons,
+  .input-panel,
+  #page1 {
     display: none !important;
+  }
+
+  #page2 {
+    display: block !important;
+  }
+
+  .certificate-container {
+    position: relative;
+    width: 11.69in;
+    height: 8.27in;
+    padding: 0.5in;
+    box-sizing: border-box;
+    background: url('../images/cert.png') no-repeat center center;
+    background-size: cover;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  .page {
+    display: block;
+    page-break-after: avoid;
   }
 }
