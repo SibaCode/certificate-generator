@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Environmental Certificate Generator</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: #f0fdf4;
+    }
+
+    .page {
+      display: none;
+      min-height: 100vh;
+      padding: 40px;
+      box-sizing: border-box;
+    }
+
+    #page1 {
+      display: block;
+    }
+
+    .input-panel {
+      max-width: 400px;
+      margin: 100px auto;
+      background: rgba(255, 255, 255, 0.95);
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px #ccc;
+      text-align: center;
+    }
+
+    .input-panel h2 {
+      margin-bottom: 20px;
+    }
+
+    .input-panel input,
+    .input-panel textarea {
+      display: block;
+      margin: 10px auto;
+      padding: 10px;
+      width: 100%;
+      font-size: 16px;
+    }
+
+    .input-panel button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 10px;
+    }
+
+    .certificate-container {
+      width: 100%;
+      min-height: 100vh;
+      background: url('images/site-images/cert.png') no-repeat center center;
+      background-size: cover;
+      padding: 60px;
+      box-sizing: border-box;
+      position: relative;
+      box-shadow: 0 0 25px rgba(34, 139, 34, 0.3);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .logo {
+      position: absolute;
+      top: 40px;
+      left: 60px;
+      z-index: 1;
+    }
+
+    .logo img {
+      height: 150px;
+    }
+
+    .seal {
+      position: absolute;
+      top: -21px;
+      right: -11px;
+      z-index: 1;
+    }
+
+    .seal img {
+      height: 253px;
+    }
+
+    .certificate-content {
+      text-align: center;
+      z-index: 2;
+      max-width: 900px;
+    }
+
+    .certificate-content h1 {
+      font-size: 69px;
+      color: #fff;
+      margin-bottom: 10px;
+    }
+
+    .accent-line {
+      height: 6px;
+      background: linear-gradient(to right, #81c784, #388e3c);
+      margin: 20px auto;
+      width: 80%;
+    }
+
+    .certificate-content p {
+      font-size: 20px;
+      color: #fff;
+      font-style: italic;
+    }
+
+    .recipient {
+      font-size: 90px;
+      font-weight: bold;
+      color: #fff;
+      margin: 30px 0 10px;
+    }
+
+    .footer {
+      position: absolute;
+      bottom: 50px;
+      left: 60px;
+      right: 60px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 16px;
+      color: #fff;
+      z-index: 2;
+    }
+
+    .signature-line {
+      border-top: 1px solid #fff;
+      width: 220px;
+      text-align: center;
+      padding-top: 5px;
+    }
+
+    .action-buttons {
+      margin: 20px auto;
+      text-align: center;
+    }
+
+    .action-buttons button {
+      margin: 0 10px;
+      padding: 10px 20px;
+      font-size: 16px;
+      background: #388e3c;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    @media print {
+      .action-buttons, #page1 {
+        display: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Page 1: Input -->
+<div class="page" id="page1">
+  <div class="input-panel">
+    <h2>Generate Your Environmental Certificate</h2>
+    <input type="text" id="name" placeholder="Enter recipient name" />
+    <textarea id="message" placeholder="Enter message about their contribution..."></textarea>
+    <button onclick="goToPage2()">Next</button>
+  </div>
+</div>
+
+<!-- Page 2: Certificate -->
+<div class="page" id="page2">
+  <div class="certificate-container">
+    <div id="pdf-content">
+      <div class="logo">
+        <img src="images/site-images/logo-env.jpeg" alt="Company Logo" />
+      </div>
+
+      <div class="seal">
+        <img src="images/site-images/seal.png" alt="Seal" />
+      </div>
+
+      <div class="certificate-content">
+        <h1>Certificate of Recognition</h1>
+        <div class="accent-line"></div>
+        <p>This certificate is proudly presented to</p>
+        <div class="recipient" id="cert-name">[Recipient Name]</div>
+        <p id="cert-message">[Message about the recipient's achievement or involvement in environmental initiatives.]</p>
+      </div>
+
+      <div class="footer">
+        <div>
+          <div class="signature-line">Authorized Signature</div>
+        </div>
+        <div>
+          <div class="signature-line" id="date">Date</div>
+        </div>
+      </div>
+    </div> <!-- End of #pdf-content -->
+
+    <div class="action-buttons">
+      <button onclick="downloadPDF()">Download PDF</button>
+      <button onclick="goBack()">Back</button>
+    </div>
+  </div>
+</div>
+
+<!-- html2pdf.js CDN -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+<script>
+  function goToPage2() {
+    const name = document.getElementById('name').value.trim();
+    const message = document.getElementById('message').value.trim();
+
+    document.getElementById('cert-name').innerText = name || '[Recipient Name]';
+    document.getElementById('cert-message').innerText = message || '[Message about the recipient]';
+
+    const today = new Date().toLocaleDateString();
+    // document.getElementById('date').innerText = today;
+
+    document.getElementById('page1').style.display = 'none';
+    document.getElementById('page2').style.display = 'block';
+  }
+
+  function goBack() {
+    document.getElementById('page2').style.display = 'none';
+    document.getElementById('page1').style.display = 'block';
+  }
+
+  function downloadPDF() {
+    const element = document.getElementById('pdf-content');
+    const opt = {
+      margin: 0,
+      filename: 'certificate.pdf',
+      image: { type: 'jpeg', quality: 1 },
+      html2canvas: { scale: 2, useCORS: true },
+      jsPDF: { unit: 'in', format: 'a4', orientation: 'landscape' }
+    };
+
+    html2pdf().set(opt).from(element).save();
+  }
+</script>
+
+</body>
+</html>
