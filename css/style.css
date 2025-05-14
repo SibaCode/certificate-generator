@@ -1,0 +1,195 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background: #f0fdf4;
+}
+
+.page {
+  display: none;
+  min-height: 100vh;
+  padding: 40px;
+  box-sizing: border-box;
+}
+
+#page1 {
+  display: block;
+}
+
+.input-panel {
+  max-width: 400px;
+  margin: 100px auto;
+  background: rgba(255, 255, 255, 0.95);
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px #ccc;
+  text-align: center;
+}
+
+.input-panel h2 {
+  margin-bottom: 20px;
+}
+
+.input-panel input,
+.input-panel textarea {
+  display: block;
+  margin: 10px auto;
+  padding: 10px;
+  width: 100%;
+  font-size: 16px;
+}
+
+.input-panel button {
+  padding: 10px 20px;
+  font-size: 16px;
+  background: #18cb96;
+  color: white;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 10px;
+}
+/* Inside css/style.css or <style> in your HTML */
+@media print {
+  body {
+    -webkit-print-color-adjust: exact !important; /* Chrome/Safari */
+    print-color-adjust: exact !important;
+  }
+
+  .certificate-container {
+    background-image: url('../images/background.jpg'); /* adjust path */
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+
+  .page {
+    page-break-after: always;
+  }
+}
+
+.certificate-container {
+  width: 100%;
+  min-height: 100vh;
+  background: url('../images/cert.png') no-repeat center center;
+  background-size: cover;
+  padding: 60px;
+  box-sizing: border-box;
+  position: relative;
+  box-shadow: 0 0 25px rgba(34, 139, 34, 0.3);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.logo {
+  position: absolute;
+  top: 40px;
+  left: 60px;
+  z-index: 1;
+}
+
+.logo img {
+  height: 150px;
+}
+
+.seal {
+  position: absolute;
+  top: -21px;
+  right: -11px;
+  z-index: 1;
+}
+
+.seal img {
+  height: 253px;
+}
+
+.certificate-content {
+  text-align: center;
+  z-index: 2;
+  max-width: 900px;
+}
+
+.certificate-content h1 {
+  font-size: 69px;
+  color: #fff;
+  margin-bottom: 10px;
+}
+
+.accent-line {
+  height: 6px;
+  background: linear-gradient(to right, #81c784, #388e3c);
+  margin: 20px auto;
+  width: 80%;
+}
+
+.certificate-content p {
+  font-size: 20px;
+  color: #fff;
+  font-style: italic;
+}
+
+.recipient {
+  font-size: 90px;
+  font-weight: bold;
+  color: #fff;
+  margin: 30px 0 10px;
+}
+
+.footer {
+  position: absolute;
+  bottom: 50px;
+  left: 60px;
+  right: 60px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 16px;
+  color: #fff;
+  z-index: 2;
+}
+
+.signature-line {
+  border-top: 1px solid #fff;
+  width: 220px;
+  text-align: center;
+  padding-top: 5px;
+}
+
+.action-buttons {
+  margin: 20px auto;
+  text-align: center;
+}
+
+.action-buttons button {
+  margin: 0 10px;
+  padding: 10px 20px;
+  font-size: 16px;
+  background: #388e3c;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+.logo-header {
+display: flex;
+flex-direction: column;
+align-items: center;
+margin-bottom: 20px;
+}
+
+.logo-header img {
+height: 100px;
+margin-bottom: 10px;
+}
+
+.logo-header h2 {
+margin: 0;
+font-size: 24px;
+}
+
+@media print {
+  .action-buttons, #page1 {
+    display: none !important;
+  }
+}
